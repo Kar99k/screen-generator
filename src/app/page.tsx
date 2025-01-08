@@ -64,56 +64,86 @@ export default function ScreenplayGenerator() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8">
-      <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
-        Screenplay Generator
-      </h1>
-      <div className="flex gap-4 h-[calc(100vh-12rem)]">
-        {/* Left Panel */}
-        <div className="flex-1 bg-white rounded-lg shadow-md p-4 flex flex-col">
-          <h2 className="text-xl font-semibold mb-2 text-gray-700">
-            Story Draft
-          </h2>
-          <Textarea
-            className="flex-1 resize-none"
-            placeholder="Write your story draft here..."
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-          />
-        </div>
-
-        {/* Center Panel */}
-        <div className="flex flex-col items-center justify-center gap-4">
-          <ArrowRight className="w-8 h-8 text-blue-500" />
-          <Button
-            className="px-8 py-6 text-lg font-semibold"
-            onClick={handleGenerate}
-            disabled={isLoading || isTyping}
-          >
-            {isLoading ? "Generating..." : isTyping ? "Typing..." : "Generate"}
-          </Button>
-          <ArrowRight className="w-8 h-8 text-blue-500" />
-        </div>
-
-        {/* Right Panel */}
-        <div className="flex-1 bg-white rounded-lg shadow-md p-4 flex flex-col">
-          <h2 className="text-xl font-semibold mb-2 text-gray-700">
-            Generated Screenplay
-          </h2>
-          {isLoading ? (
-            <div className="flex-1 flex items-center justify-center">
-              <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
-            </div>
-          ) : (
+    <div className="min-h-screen bg-gray-100 p-8 flex flex-col">
+      <div className="flex-1">
+        <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
+          Screenplay Generator
+        </h1>
+        <div className="flex gap-4 h-[calc(100vh-12rem)]">
+          {/* Left Panel */}
+          <div className="flex-1 bg-white rounded-lg shadow-md p-4 flex flex-col">
+            <h2 className="text-xl font-semibold mb-2 text-gray-700">
+              Story Draft
+            </h2>
             <Textarea
               className="flex-1 resize-none"
-              placeholder="Your generated screenplay will appear here..."
-              value={output}
-              readOnly
+              placeholder="Write your story draft here..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
             />
-          )}
+          </div>
+
+          {/* Center Panel */}
+          <div className="flex flex-col items-center justify-center gap-4">
+            <ArrowRight className="w-8 h-8 text-blue-500" />
+            <Button
+              className="px-8 py-6 text-lg font-semibold"
+              onClick={handleGenerate}
+              disabled={isLoading || isTyping}
+            >
+              {isLoading
+                ? "Generating..."
+                : isTyping
+                ? "Typing..."
+                : "Generate"}
+            </Button>
+            <ArrowRight className="w-8 h-8 text-blue-500" />
+          </div>
+
+          {/* Right Panel */}
+          <div className="flex-1 bg-white rounded-lg shadow-md p-4 flex flex-col">
+            <h2 className="text-xl font-semibold mb-2 text-gray-700">
+              Generated Screenplay
+            </h2>
+            {isLoading ? (
+              <div className="flex-1 flex items-center justify-center">
+                <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
+              </div>
+            ) : (
+              <Textarea
+                className="flex-1 resize-none"
+                placeholder="Your generated screenplay will appear here..."
+                value={output}
+                readOnly
+              />
+            )}
+          </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <footer className="mt-8 text-center text-gray-600">
+        <p className="text-sm">
+          Created with ❤️ by{" "}
+          <a
+            href="https://github.com/Thanish-Kumar"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 hover:text-blue-800 font-medium"
+          >
+            Thanish
+          </a>{" "}
+          and{" "}
+          <a
+            href="https://github.com/Kar99k"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 hover:text-blue-800 font-medium"
+          >
+            Karkey
+          </a>
+        </p>
+      </footer>
     </div>
   );
 }
