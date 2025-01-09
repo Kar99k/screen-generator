@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowRight, Loader2 } from "lucide-react";
 import OpenAI from "openai";
+import jsPDF from "jspdf";
 
 export default function ScreenplayGenerator() {
   const [input, setInput] = useState("");
@@ -63,6 +64,24 @@ export default function ScreenplayGenerator() {
     }
   };
 
+  const handleExportPDF = () => {
+    const doc = new jsPDF();
+
+    // Split the output text into lines that fit the PDF width
+    const lines = doc.splitTextToSize(output, 180); // 180 is the max width in points
+
+    // Add title
+    doc.setFontSize(16);
+    doc.text("Generated Screenplay", 105, 15, { align: "center" });
+
+    // Add content
+    doc.setFontSize(12);
+    doc.text(lines, 15, 25); // Start content at x:15, y:25
+
+    // Save the PDF
+    doc.save("screenplay.pdf");
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 p-8 flex flex-col">
       <div className="flex-1">
@@ -102,9 +121,37 @@ export default function ScreenplayGenerator() {
 
           {/* Right Panel */}
           <div className="flex-1 bg-white rounded-lg shadow-md p-4 flex flex-col">
-            <h2 className="text-xl font-semibold mb-2 text-gray-700">
-              Generated Screenplay
-            </h2>
+            <div className="flex justify-between items-center mb-2">
+              <h2 className="text-xl font-semibold text-gray-700">
+                Generated Screenplay
+              </h2>
+              {output && !isLoading && !isTyping && (
+                <Button
+                  onClick={handleExportPDF}
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-2"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                    <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z" />
+                    <path d="M12 17v-6" />
+                    <path d="M9.5 14.5L12 17l2.5-2.5" />
+                  </svg>
+                  Export PDF
+                </Button>
+              )}
+            </div>
             {isLoading ? (
               <div className="flex-1 flex items-center justify-center">
                 <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
