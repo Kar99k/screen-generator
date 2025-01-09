@@ -83,30 +83,32 @@ export default function ScreenplayGenerator() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-8 flex flex-col">
+    <div className="min-h-screen bg-gray-100 p-4 sm:p-8 flex flex-col">
       <div className="flex-1">
-        <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
+        <h1 className="text-2xl sm:text-3xl font-bold text-center mb-4 sm:mb-8 text-gray-800">
           Screenplay Generator
         </h1>
-        <div className="flex gap-4 h-[calc(100vh-12rem)]">
+
+        {/* Change flex to flex-col on mobile, row on larger screens */}
+        <div className="flex flex-col lg:flex-row gap-4 h-auto lg:h-[calc(100vh-12rem)]">
           {/* Left Panel */}
           <div className="flex-1 bg-white rounded-lg shadow-md p-4 flex flex-col">
-            <h2 className="text-xl font-semibold mb-2 text-gray-700">
+            <h2 className="text-lg sm:text-xl font-semibold mb-2 text-gray-700">
               Story Draft
             </h2>
             <Textarea
-              className="flex-1 resize-none"
+              className="flex-1 resize-none min-h-[200px] lg:min-h-0"
               placeholder="Write your story draft here..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
             />
           </div>
 
-          {/* Center Panel */}
-          <div className="flex flex-col items-center justify-center gap-4">
+          {/* Center Panel - Hide arrows on mobile */}
+          <div className="hidden lg:flex flex-col items-center justify-center gap-4">
             <ArrowRight className="w-8 h-8 text-blue-500" />
             <Button
-              className="px-8 py-6 text-lg font-semibold"
+              className="px-4 sm:px-8 py-4 sm:py-6 text-base sm:text-lg font-semibold whitespace-nowrap"
               onClick={handleGenerate}
               disabled={isLoading || isTyping}
             >
@@ -119,10 +121,25 @@ export default function ScreenplayGenerator() {
             <ArrowRight className="w-8 h-8 text-blue-500" />
           </div>
 
+          {/* Mobile Generate Button */}
+          <div className="lg:hidden flex justify-center">
+            <Button
+              className="px-4 py-4 text-base font-semibold w-full sm:w-auto"
+              onClick={handleGenerate}
+              disabled={isLoading || isTyping}
+            >
+              {isLoading
+                ? "Generating..."
+                : isTyping
+                ? "Typing..."
+                : "Generate"}
+            </Button>
+          </div>
+
           {/* Right Panel */}
           <div className="flex-1 bg-white rounded-lg shadow-md p-4 flex flex-col">
-            <div className="flex justify-between items-center mb-2">
-              <h2 className="text-xl font-semibold text-gray-700">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2 gap-2">
+              <h2 className="text-lg sm:text-xl font-semibold text-gray-700">
                 Generated Screenplay
               </h2>
               {output && !isLoading && !isTyping && (
@@ -130,7 +147,7 @@ export default function ScreenplayGenerator() {
                   onClick={handleExportPDF}
                   variant="outline"
                   size="sm"
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 w-full sm:w-auto"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -153,12 +170,12 @@ export default function ScreenplayGenerator() {
               )}
             </div>
             {isLoading ? (
-              <div className="flex-1 flex items-center justify-center">
+              <div className="flex-1 flex items-center justify-center min-h-[200px] lg:min-h-0">
                 <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
               </div>
             ) : (
               <Textarea
-                className="flex-1 resize-none"
+                className="flex-1 resize-none min-h-[200px] lg:min-h-0"
                 placeholder="Your generated screenplay will appear here..."
                 value={output}
                 readOnly
@@ -169,8 +186,8 @@ export default function ScreenplayGenerator() {
       </div>
 
       {/* Footer */}
-      <footer className="mt-8 text-center text-gray-600">
-        <p className="text-sm">
+      <footer className="mt-4 sm:mt-8 text-center text-gray-600">
+        <p className="text-xs sm:text-sm">
           Created with ❤️ by{" "}
           <a
             href="https://github.com/Thanish-Kumar"
